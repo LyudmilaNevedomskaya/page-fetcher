@@ -8,11 +8,15 @@ request(args[0], (error, response, body) => {
   console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
   //console.log('body:', body); // Print the HTML for the Google homepage.
 
-  fs.writeFile(args[1], body, err => {
-    if (err) {
-      console.error(err)
-      return
-    }
-    //file written successfully
-  })
+  if (response && response.statusCode === 200) {
+    fs.writeFile(args[1], body, err => {
+      if (err) {
+        console.error(err)
+        return
+      }
+      //file written successfully
+    })
+  }
+  
+  console.log(`Downloaded and saved ${body.length} bytes to ${args[1]}`);
 });
